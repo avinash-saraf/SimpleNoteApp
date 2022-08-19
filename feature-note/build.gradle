@@ -1,0 +1,83 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 30
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.compose.get()
+    }
+}
+
+dependencies {
+
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
+    implementation libs.androidx.core
+    implementation libs.androidx.lifecycle.runtime
+    implementation libs.androidx.activity.compose
+    implementation libs.compose.ui.ui
+    implementation libs.compose.material3
+    implementation libs.compose.ui.tooling.preview
+    testImplementation libs.junit
+    androidTestImplementation libs.compose.ui.junit4
+    androidTestImplementation libs.androidx.test.ext.junit
+    androidTestImplementation libs.androidx.test.espressoCore
+    debugImplementation libs.compose.ui.tooling
+    debugImplementation libs.compose.ui.test.manifest
+
+    // Compose dependencies
+    implementation libs.lifecycle.viewmodel.compose
+    implementation libs.navigation.compose
+    implementation libs.compose.material.icons.extended
+
+    // Coroutines
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+
+    // Dagger-Hilt
+    implementation libs.hilt.android
+    implementation libs.hilt.android.compiler
+    implementation libs.hilt.compiler
+    implementation libs.hilt.navigation.compose
+
+    // Room
+    implementation libs.room.runtime
+    kapt libs.room.compiler
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation libs.room.ktx
+}
+
+kapt {
+    correctErrorTypes = true
+}
